@@ -16,6 +16,7 @@ class App extends Component {
             <Layout logout={azs.logout} title="Home" description="Something, Something, Dark Side">
               <div className="container">
                 <p>I am logged in</p>
+                {azs.getUser()}
               </div>
             </Layout>
           </Auth>)}
