@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { Button, Navbar, NavbarBrand, NavbarToggler, Collapse, Nav, NavItem, NavLink, Container, Jumbotron } from 'reactstrap';
+import { Navbar, NavbarBrand, NavbarToggler, Collapse, Nav, NavItem, NavLink, Container, Jumbotron } from 'reactstrap';
 
 class Header extends Component {
     state = {
@@ -11,7 +11,7 @@ class Header extends Component {
         });
     }      
     render() {
-        const {logout, title, description} = this.props;
+        const {title, description} = this.props;
         return (
             <Fragment>
                 <Navbar color="dark" dark expand="md">
@@ -24,10 +24,13 @@ class Header extends Component {
                                     <NavLink href="/">Home</NavLink>
                                 </NavItem>
                                 <NavItem>
-                                    <NavLink href="/areas">Areas</NavLink>
-                                </NavItem>  
+                                    <NavLink href="/companies">Companies</NavLink>
+                                </NavItem>
                                 <NavItem>
-                                    <Button color="primary" size="sm" className="mt-1 ml-2" onClick={logout}>Logout</Button>
+                                    <NavLink href="/offers">Offers</NavLink>
+                                </NavItem>
+                                <NavItem>
+                                    <NavLink href="/offers">Playlists</NavLink>
                                 </NavItem>
                             </Nav>
                         </Collapse>

@@ -1,6 +1,5 @@
 import auth0 from 'auth0-js';
 import config from '../config';
-import * as jwt_decode from 'jwt-decode';
 
 export default class AuthZeroService{
     auth0 = new auth0.WebAuth({
@@ -44,8 +43,4 @@ export default class AuthZeroService{
         const expires = JSON.parse(localStorage.getItem('expires_at'));
         return new Date().getTime() < expires;
     }
-    getUser = () => {
-        const id_token = localStorage.getItem('id_token');
-        return id_token ? jwt_decode(id_token).sub : null;
-   }
 }
