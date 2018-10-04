@@ -26,6 +26,7 @@ class CompaniesList extends Component {
                                     <td>{company.instagram_url}</td>
                                     <td>
                                         <Button color="primary" size="sm" block onClick={() => this.goToCompany(company._id)}>Edit</Button>
+                                        <Button color="secondary" size="sm" onClick={() => this.goToOffers(company._id)} block>Offers</Button>
                                     </td>
                                 </tr>
                             )
@@ -43,7 +44,11 @@ class CompaniesList extends Component {
     goToCompany = (id) => {
         const {history} = this.props;
         history.push(`/companies/${id}`);
-    }    
+    }   
+    goToOffers = (id) => {
+        const {history} = this.props;
+        history.push(`/companies/${id}/offers`);
+    } 
 }
 
 export default CompaniesList;

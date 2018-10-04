@@ -1,5 +1,5 @@
 import React, { Component, Fragment} from 'react';
-import { Card, CardBody, Container, Row, Col, Button, Form, FormGroup, Input } from 'reactstrap';
+import { Alert, Card, CardBody, Container, Row, Col, Button, Form, FormGroup, Input } from 'reactstrap';
 
 import produce from 'immer';
 
@@ -7,7 +7,8 @@ import * as api from '../../../utils/api';
 
 class CompanyForm extends Component {
     state = {
-        company: false
+        company: false,
+        error: false
     }
     render() {
         const {company} = this.state;
@@ -16,10 +17,11 @@ class CompanyForm extends Component {
                 <Container>
                     <Row>
                         <Col>
-                            <Card>
+                            {this.state.error && <Alert color="danger">{this.state.error}</Alert>}
+                            <Card style={{marginBottom:'1rem'}}>
                                 <CardBody>
                                     {company && (
-                                        <Form>
+                                        <Form onSubmit={this.handleSubmit}>
                                             <FormGroup>
                                                 <Input type="text" name="name" id="name" placeholder="Company name..." onChange={this.handleChange} value={this.state.company.name}/>
                                             </FormGroup>
@@ -36,13 +38,12 @@ class CompanyForm extends Component {
                                                 <Input type="text" name="instagram_url" id="instagram_url" placeholder="Instagram address..." onChange={this.handleChange} value={this.state.company.instagram_url}></Input>
                                             </FormGroup>    
                                             <FormGroup style={{marginBottom:0}}>
-                                                <Button color="primary" onClick={this.updateCompany}>Update Company</Button>    
+                                                <Button color="primary" onClick={this.updateCompany} style={{marginRight:'1rem'}}>Update Company</Button><Button color="secondary" onClick={this.clearForm}>Cancel</Button>
                                             </FormGroup>                                                                    
                                         </Form>
                                     )}
                                 </CardBody>
                             </Card>
-                    
                         </Col>
                     </Row>
                 </Container>
@@ -52,6 +53,10 @@ class CompanyForm extends Component {
 
     componentDidMount() {
         this.getCompany();
+    }
+
+    handleSubmit = (event) => {
+        event.preventDefault();
     }
 
     handleChange = (event) => {
@@ -77,23 +82,44 @@ class CompanyForm extends Component {
                 setBannerTitle(this.state.company.name);
             })
             .catch(err => console.log)
-    }    
+    }  
+    
+    isValidForm = () => {
+        const {company} = this.state;
+        return company.name.length > 0;
+    }
 
     updateCompany = () => {
-        const {params} = this.props.match;
-        const {setBannerTitle} = this.props;
-        const {company} = this.state;
-        api.updateCompany(params.id, company)
-            .then(results => {
-                const {company} = results.data;
-                this.setState(
-                    produce(draft => {
-                        draft.company = company;
-                    })
-                )
-                setBannerTitle(company.name);
+        if (this.isValidForm()){
+            const {params} = this.props.match;
+            const {setBannerTitle} = this.props;
+            const {company} = this.state;
+            api.updateCompany(params.id, company)
+                .then(results => {
+                    const {company} = results.data;
+                    this.setState(
+                        produce(draft => {
+                            draft.company = company;
+                        })
+                    )
+                    setBannerTitle(company.name);
+                })
+                .catch(err => console.log)
+        }else{
+            this.setState(
+                produce(draft => {
+                    draft.error = 'Company name is required'
+                })
+            )
+        }
+    }
+
+    clearForm = () => {
+        this.setState(
+            produce(draft => {
+                draft.error = false;
             })
-            .catch(err => console.log)
+        )
     }
 }
 

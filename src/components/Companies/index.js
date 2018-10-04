@@ -10,7 +10,6 @@ class Companies extends Component {
         companies: []
     }
     render() {
-        const {companies} = this.state;
         return (
             <Fragment>
                 <Banner title="Companies"/>

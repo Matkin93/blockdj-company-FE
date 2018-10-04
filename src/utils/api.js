@@ -16,3 +16,7 @@ export const getCompany = (id) => {
 export const updateCompany = (id, data) => {
     return axios.put(`${API_URL}/companies/${id}`, data);
 }
+
+export const getCompanyOffers = (id) => {
+    return axios.get(`${API_URL}/companies/${id}/offers`);
+}

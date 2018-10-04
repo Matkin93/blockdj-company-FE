@@ -6,7 +6,7 @@ const Banner = (props) => {
     return (
         <Jumbotron fluid>
             <Container>
-                <h1 className="display-5">{title}</h1>
+                <h1 className="display-6">{title}</h1>
             </Container>
         </Jumbotron>
     )

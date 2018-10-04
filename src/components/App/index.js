@@ -7,6 +7,7 @@ import Unauthorised from '../Unauthorised';
 import Layout from '../Layout';
 import Companies from '../Companies';
 import Company from '../Company';
+import Offers from '../Offers';
 import Banner from '../Banner';
 
 class App extends Component {
@@ -33,6 +34,13 @@ class App extends Component {
           <Auth {...props} login={azs.login} isAuthenticated={azs.isAuthenticated}>
             <Layout logout={azs.logout} title="Companies">
               <Company {...props} />                
+            </Layout>
+          </Auth>
+        )}/>        
+        <Route exact path="/companies/:id/offers" render={(props) => (
+          <Auth {...props} login={azs.login} isAuthenticated={azs.isAuthenticated}>
+            <Layout logout={azs.logout} title="Offers">
+              <Offers {...props} />                
             </Layout>
           </Auth>
         )}/>        
