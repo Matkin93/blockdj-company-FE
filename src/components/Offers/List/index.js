@@ -19,15 +19,15 @@ class OffersList extends Component {
                         offers.map(offer => {
                             return (
                                 <tr key={offer._id}>
-                                    <td>{offer.title}</td>
+                                    <td width="40%">{offer.title}</td>
                                     <td>
-                                        <ul>
+                                        <ul style={{margin:0,padding:0}}>
                                             {offer.areas.map(area => {
-                                                return (<li key={area._id}>{area.name}</li>)
+                                                return (<li key={area._id} style={{display:'inline',marginRight:'0.5rem'}}>{area.name}</li>)
                                             })}
                                         </ul>
                                     </td>
-                                    <td>
+                                    <td width="10%">                                     
                                         <Button color="primary" size="sm" block onClick={() => this.goToOffer(offer._id)}>Edit</Button>
                                     </td>
                                 </tr>

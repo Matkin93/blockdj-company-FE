@@ -1,3 +1,18 @@
+.table td{
+    vertical-align: middle;
+}
+label{
+    margin-bottom:0;
+    font-weight:bold;
+    font-size:1rem;
+}
+small{
+    display:block;
+    margin-top:-2px;
+}
+.jumbotron{
+    margin-bottom:1rem;    
+}
 @media (min-width: 576px){
     .jumbotron {
         padding:2rem;

@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { Button, Navbar, NavbarBrand, NavbarToggler, Collapse, Nav, NavItem, NavLink, Container, Jumbotron } from 'reactstrap';
+import { Button, Navbar, NavbarBrand, NavbarToggler, Collapse, Nav, NavItem, NavLink, Container } from 'reactstrap';
 
 class Header extends Component {
     state = {
@@ -11,7 +11,7 @@ class Header extends Component {
         });
     }      
     render() {
-        const {logout, title} = this.props;
+        const {logout} = this.props;
         return (
             <Fragment>
                 <Navbar color="dark" dark expand="md">

@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
+import {Form} from 'reactstrap';
 
 class OfferForm extends Component {
     render() {
         return (
-            <div>
+            <Form>
                 
-            </div>
+            </Form>
         );
     }
 }

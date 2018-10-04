@@ -1,5 +1,5 @@
 import React, { Component, Fragment} from 'react';
-import { Alert, Card, CardBody, Container, Row, Col, Button, Form, FormGroup, Input } from 'reactstrap';
+import { Alert, Card, CardBody, Container, Row, Col, Button, Form, FormGroup, Input, Label } from 'reactstrap';
 
 import produce from 'immer';
 
@@ -8,7 +8,7 @@ import * as api from '../../../utils/api';
 class CompanyForm extends Component {
     state = {
         company: false,
-        error: false
+        alert: false
     }
     render() {
         const {company} = this.state;
@@ -17,31 +17,50 @@ class CompanyForm extends Component {
                 <Container>
                     <Row>
                         <Col>
-                            {this.state.error && <Alert color="danger">{this.state.error}</Alert>}
+                            {this.state.alert && <Alert color={this.state.alert.color}>{this.state.alert.message}</Alert>}
                             <Card style={{marginBottom:'1rem'}}>
                                 <CardBody>
                                     {company && (
                                         <Form onSubmit={this.handleSubmit}>
                                             <FormGroup>
-                                                <Input type="text" name="name" id="name" placeholder="Company name..." onChange={this.handleChange} value={this.state.company.name}/>
+                                                <Row>
+                                                    <Col sm={4}><Label for="name">Name<small>What name is your business known under?</small></Label></Col>
+                                                    <Col><Input type="text" name="name" id="name" placeholder="Company name..." onChange={this.handleChange} value={this.state.company.name}/></Col>
+                                                </Row>                                                
                                             </FormGroup>
                                             <FormGroup>
-                                                <Input type="textarea" name="details" id="details" placeholder="Details..." onChange={this.handleChange} value={this.state.company.details}></Input>
+                                                <Row>
+                                                    <Col sm={4}><Label for="details">Details<small>Enter a description for your business</small></Label></Col>
+                                                    <Col><Input type="textarea" name="details" id="details" placeholder="Details..." onChange={this.handleChange} value={this.state.company.details}></Input></Col>
+                                                </Row>
                                             </FormGroup>
                                             <FormGroup>
-                                                <Input type="text" name="website" id="website" placeholder="Website address..." onChange={this.handleChange} value={this.state.company.website}></Input>
+                                                <Row>
+                                                    <Col sm={4}><Label for="website">Website Address<small>Enter your business website address</small></Label></Col>
+                                                    <Col><Input type="text" name="website" id="website" placeholder="Website address..." onChange={this.handleChange} value={this.state.company.website}></Input></Col>
+                                                </Row>                                                
                                             </FormGroup> 
                                             <FormGroup>
-                                                <Input type="text" name="facebook_url" id="facebook_url" placeholder="Facebook address..." onChange={this.handleChange} value={this.state.company.facebook_url}></Input>
+                                                <Row>
+                                                    <Col sm={4}><Label for="facebook_url">Facebook URL<small>Enter a facebook page url</small></Label></Col>
+                                                    <Col><Input type="text" name="facebook_url" id="facebook_url" placeholder="Facebook address..." onChange={this.handleChange} value={this.state.company.facebook_url}></Input></Col>
+                                                </Row>
                                             </FormGroup>  
                                             <FormGroup>
-                                                <Input type="text" name="instagram_url" id="instagram_url" placeholder="Instagram address..." onChange={this.handleChange} value={this.state.company.instagram_url}></Input>
-                                            </FormGroup>    
-                                            <FormGroup style={{marginBottom:0}}>
-                                                <Button color="primary" onClick={this.updateCompany} style={{marginRight:'1rem'}}>Update Company</Button><Button color="secondary" onClick={this.clearForm}>Cancel</Button>
-                                            </FormGroup>                                                                    
+                                                <Row>
+                                                    <Col sm={4}><Label for="instagram_url">Instagram URL<small>Enter a instagram url</small></Label></Col>
+                                                    <Col><Input type="text" name="instagram_url" id="instagram_url" placeholder="Instagram address..." onChange={this.handleChange} value={this.state.company.instagram_url}></Input></Col>
+                                                </Row>
+                                            </FormGroup>                                                                        
                                         </Form>
                                     )}
+                                </CardBody>
+                            </Card>
+                            <Card>
+                                <CardBody>
+                                    <FormGroup style={{marginBottom:0}}>
+                                        <Button color="primary" size="sm" onClick={this.updateCompany} style={{marginRight:'1rem'}}>Update Company</Button><Button color="secondary" size="sm" onClick={this.resetForm} style={{marginRight:'1rem'}}>Reset</Button><Button color="secondary" size="sm" onClick={this.cancelUpdate}>Cancel</Button>
+                                    </FormGroup>
                                 </CardBody>
                             </Card>
                         </Col>
@@ -100,6 +119,7 @@ class CompanyForm extends Component {
                     this.setState(
                         produce(draft => {
                             draft.company = company;
+                            draft.alert = {message:'Company was successfully updated', color:'success'}
                         })
                     )
                     setBannerTitle(company.name);
@@ -108,18 +128,23 @@ class CompanyForm extends Component {
         }else{
             this.setState(
                 produce(draft => {
-                    draft.error = 'Company name is required'
+                    draft.alert = {message:'Company name is required', color:'danger'}
                 })
             )
         }
     }
 
-    clearForm = () => {
+    resetForm = () => {
         this.setState(
             produce(draft => {
-                draft.error = false;
+                draft.alert = false;
             })
         )
+    }
+
+    cancelUpdate = () => {
+        const {history} = this.props;
+        history.push('/companies')
     }
 }
 

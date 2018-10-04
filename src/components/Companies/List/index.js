@@ -10,8 +10,6 @@ class CompaniesList extends Component {
                     <tr>
                         <th>Name</th>
                         <th>Website</th>
-                        <th>Facebook</th>
-                        <th>Instagram</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -20,13 +18,12 @@ class CompaniesList extends Component {
                         companies.map(company => {
                             return (
                                 <tr key={company._id}>
-                                    <td>{company.name}</td>
+                                    <td style={{width:'30%'}}>{company.name}</td>
                                     <td>{company.website}</td>
-                                    <td>{company.facebook_url}</td>
-                                    <td>{company.instagram_url}</td>
-                                    <td>
-                                        <Button color="primary" size="sm" block onClick={() => this.goToCompany(company._id)}>Edit</Button>
-                                        <Button color="secondary" size="sm" onClick={() => this.goToOffers(company._id)} block>Offers</Button>
+                                    <td style={{width:'20%'}}>
+                                        <Button color="primary" style={{marginRight:'0.5rem'}} size="sm" onClick={() => this.goToCompany(company._id)}>Edit</Button>
+                                        <Button color="primary" style={{marginRight:'0.5rem'}} size="sm" onClick={() => this.goToOffers(company._id)}>Offers</Button>
+                                        <Button color="primary" size="sm">Playlists</Button>
                                     </td>
                                 </tr>
                             )
@@ -34,7 +31,7 @@ class CompaniesList extends Component {
                     )}
                     {companies.length === 0 && (
                         <tr>
-                            <td colSpan="5">No companies currently added</td>
+                            <td colSpan="3">No companies currently added</td>
                         </tr>
                     )}
                 </tbody>
