@@ -71,7 +71,7 @@ class CompanyForm extends Component {
     getCompany = () => {
         const {params} = this.props.match;
         const {setBannerTitle} = this.props;
-        api.getCompany(params.id)
+        api.getCompanyById(params.id)
             .then(results => {
                 const {company} = results.data;
                 this.setState(
