@@ -1,6 +1,8 @@
 import React, { Component, Fragment } from 'react';
 import {Button} from 'reactstrap'
+
 import * as api from '../../utils/api';
+import Banner from '../Banner';
 
 class Companies extends Component {
     state = {
@@ -10,6 +12,7 @@ class Companies extends Component {
         const {companies} = this.state;
         return (
             <Fragment>
+                <Banner title="Companies"/>
                 {companies && 
                     <table className="table table-bordered">
                         <thead>
@@ -30,7 +33,7 @@ class Companies extends Component {
                                         <td>{company.facebook_url}</td>
                                         <td>{company.instagram_url}</td>
                                         <td>
-                                            <Button color="primary" size="sm">Edit</Button>
+                                            <Button color="primary" size="sm" onClick={() => this.goToCompany(company._id)}>Edit</Button>
                                         </td>
                                     </tr>
                                 )                     
@@ -53,6 +56,10 @@ class Companies extends Component {
                 this.setState({companies});
             })
             .catch(err => console.log)
+    }
+    goToCompany = (id) => {
+        const {history} = this.props;
+        history.push(`/companies/${id}`);
     }
 }
 
