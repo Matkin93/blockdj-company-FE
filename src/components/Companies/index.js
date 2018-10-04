@@ -1,8 +1,9 @@
 import React, { Component, Fragment } from 'react';
-import {Button} from 'reactstrap'
+import {Container, Row, Col} from 'reactstrap'
 
 import * as api from '../../utils/api';
 import Banner from '../Banner';
+import CompaniesList from './List';
 
 class Companies extends Component {
     state = {
@@ -13,34 +14,13 @@ class Companies extends Component {
         return (
             <Fragment>
                 <Banner title="Companies"/>
-                {companies && 
-                    <table className="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Website</th>
-                                <th>Facebook</th>
-                                <th>Instagram</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {companies.map(company => {
-                                return (
-                                    <tr key={company._id}>
-                                        <td>{company.name}</td>
-                                        <td>{company.website}</td>
-                                        <td>{company.facebook_url}</td>
-                                        <td>{company.instagram_url}</td>
-                                        <td>
-                                            <Button color="primary" size="sm" onClick={() => this.goToCompany(company._id)}>Edit</Button>
-                                        </td>
-                                    </tr>
-                                )                     
-                            })}
-                        </tbody>
-                    </table>
-                }
+                <Container>
+                    <Row>
+                        <Col>
+                            <CompaniesList {...this.props} {...this.state}/>
+                        </Col>
+                    </Row>
+                </Container>
             </Fragment>
         );
     }
@@ -56,10 +36,6 @@ class Companies extends Component {
                 this.setState({companies});
             })
             .catch(err => console.log)
-    }
-    goToCompany = (id) => {
-        const {history} = this.props;
-        history.push(`/companies/${id}`);
     }
 }
 

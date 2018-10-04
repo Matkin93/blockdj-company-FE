@@ -12,3 +12,7 @@ export const getCompanies = () => {
 export const getCompany = (id) => {
     return axios.get(`${API_URL}/companies/${id}`);
 }
+
+export const updateCompany = (id, data) => {
+    return axios.put(`${API_URL}/companies/${id}`, data);
+}

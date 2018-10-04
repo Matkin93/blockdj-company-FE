@@ -1,39 +1,28 @@
 import React, { Component, Fragment } from 'react';
-import CompanyForm from '../Companies/Form';
 
 import produce from 'immer';
 
-import * as api from '../../utils/api';
+import CompanyForm from './Form';
 import Banner from '../Banner';
 
 class Company extends Component {
     state = {
-        company: false
+        title: ''
     }
     render() {
         return (
             <Fragment>
-                <Banner title={this.state.company.name}/>
-                <CompanyForm/>
+                <Banner title={this.state.title}/>
+                <CompanyForm {...this.props} setBannerTitle={this.setBannerTitle}/>
             </Fragment>
         );
     }
-
-    componentDidMount() {
-        this.getCompany();
-    }
-
-    getCompany = () => {
-        const {params} = this.props.match;
-        api.getCompany(params.id)
-            .then(results => {
-                const {company} = results.data;
-                this.setState(
-                    produce(draft => {
-                        draft.company = company;
-                    })
-                )
+    setBannerTitle = (title) => {
+        this.setState(
+            produce(draft => {
+                draft.title = title;
             })
+        )
     }
 }
 
