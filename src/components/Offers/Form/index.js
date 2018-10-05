@@ -131,6 +131,10 @@ class OfferForm extends Component {
             })
             .catch(err => console.log)
     }
+    isValidForm = () => {
+        const {offer} = this.state;
+        return offer.title.length > 0;
+    }    
     resetForm = () => {
         this.setState(
             produce(draft => {
@@ -140,7 +144,9 @@ class OfferForm extends Component {
         )
     }
     addOffer = () => {
-        console.log(this.state.offer);
+        const {offer} = this.state;
+        delete offer.city
+
     }
     cancel = () => {
 
