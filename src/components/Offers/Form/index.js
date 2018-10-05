@@ -13,13 +13,15 @@ class OfferForm extends Component {
         offer: {
             title: '',
             description: '',
+            redemption: '',
+            image_url:'',
             city: '',
             areas: []
         }
     }
     render() {
-        const {alert, cities, areas} = this.state;
-        const {title, description, redemption, image_url, areas} = this.state.offer;
+        const {alert, cities, city_areas} = this.state;
+        const {title, description, redemption, image_url, city, areas} = this.state.offer;
         return (
             <Fragment>
                 <Container>
@@ -57,7 +59,7 @@ class OfferForm extends Component {
                                             <Row>
                                                 <Col sm={4}><Label for="description">City<small>What city do you want to place this offer in ?</small></Label></Col>
                                                 <Col>
-                                                    <Input type="select" name="city" id="city" placeholder="Offer city" onChange={this.handleChange} value={this.state.city}>
+                                                    <Input type="select" name="city" id="city" placeholder="Offer city" onChange={this.handleCityChange} value={city}>
                                                         {cities && cities.map(city => {
                                                             return (<option key={city._id} value={city._id}>{city.name}</option>)
                                                         })}
@@ -67,9 +69,9 @@ class OfferForm extends Component {
                                         </FormGroup>    
                                         <FormGroup>
                                             <Row>
-                                                <Col sm={4}><Label for="description">Areas<small>What areas do you want to place this offer in ?</small></Label></Col>
+                                                <Col sm={4}><Label for="description">Areas<small>What areas do you want to place this offer in ?<br/>CTRL + Click / CMD + Click for multiple</small></Label></Col>
                                                 <Col>
-                                                    <Input type="select" multiple name="areas" id="areas" placeholder="Offer areas" onChange={this.handleChange} value={this.state.area}>
+                                                    <Input type="select" multiple name="areas" id="areas" placeholder="Offer areas" onChange={this.handleChange} value={areas}>
                                                         {city_areas && city_areas.map(area => {
                                                             return (<option key={area._id} value={area._id}>{area.name}</option>)
                                                         })}
@@ -104,13 +106,18 @@ class OfferForm extends Component {
             })
         )
     }
+    handleCityChange = (event) => {
+        this.setState(produce(draft => {
+            draft.city = event.target.value;
+        }), () => this.getCityAreas(this.state.offer.city))
+    }
     getCities = () => {
         api.getCities()
             .then(response => {
                 const {cities} = response.data;
                 this.setState(produce(draft => {
                     draft.cities = cities;
-                }), () => {this.getCityAreas(this.state.cities[0]._id)})
+                }), () => this.getCityAreas(this.state.cities[0]._id))
             })
             .catch(err => console.log)
     }
@@ -133,7 +140,7 @@ class OfferForm extends Component {
         )
     }
     addOffer = () => {
-
+        console.log(this.state.offer);
     }
     cancel = () => {
 
