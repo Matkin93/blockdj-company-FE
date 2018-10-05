@@ -94,3 +94,13 @@ export const updateCompanyOffer = (company_id, offer_id, data) => {
 export const deleteCompanyOffer = (company_id, offer_id) => {
     return axios.delete(`${API_URL}/companies/${company_id}/offers/${offer_id}`);
 }
+
+// GET /cities
+export const getCities = () => {
+    return axios.get(`${API_URL}/cities`);
+}
+
+// GET /cities/:city_id/areas
+export const getCityAreas = (id) => {
+    return axios.get(`${API_URL}/cities/${id}/areas`);
+}
