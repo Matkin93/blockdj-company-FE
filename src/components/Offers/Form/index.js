@@ -3,13 +3,18 @@ import {Container, Row, Col, Form, FormGroup, Alert, Card, CardBody, Label, Inpu
 
 import produce from 'immer';
 
+import * as api from '../../../utils/api';
+
 class OfferForm extends Component {
     state = {
         alert: false,
-        title: ''
+        cities: [],
+        areas: [],
+        title: '',
+        city: '',
     }
     render() {
-        const {alert, title} = this.state;
+        const {alert, cities, areas, title} = this.state;
         return (
             <Fragment>
                 <Container>
@@ -45,8 +50,26 @@ class OfferForm extends Component {
                                         </FormGroup>
                                         <FormGroup>
                                             <Row>
+                                                <Col sm={4}><Label for="description">City<small>What city do you want to place this offer in ?</small></Label></Col>
+                                                <Col>
+                                                    <Input type="select" name="city" id="city" placeholder="Offer city" onChange={this.handleChange} value={this.state.city}>
+                                                        {cities && cities.map(city => {
+                                                            return (<option key={city._id} value={city._id}>{city.name}</option>)
+                                                        })}
+                                                    </Input>
+                                                </Col>
+                                            </Row>                                                
+                                        </FormGroup>    
+                                        <FormGroup>
+                                            <Row>
                                                 <Col sm={4}><Label for="description">Areas<small>What areas do you want to place this offer in ?</small></Label></Col>
-                                                <Col><Input type="select" multiple name="areas" id="areas" placeholder="Offer areas" onChange={this.handleChange} value={this.state.areas}/></Col>
+                                                <Col>
+                                                    <Input type="select" multiple name="areas" id="areas" placeholder="Offer areas" onChange={this.handleChange} value={this.state.area}>
+                                                        {areas && areas.map(area => {
+                                                            return (<option key={area._id} value={area._id}>{area.name}</option>)
+                                                        })}
+                                                    </Input>
+                                                </Col>
                                             </Row>                                                
                                         </FormGroup>                                       
                                     </Form>
@@ -64,6 +87,37 @@ class OfferForm extends Component {
                 </Container>
             </Fragment>
         );
+    }
+    componentDidMount = () => {
+        this.getCities();
+    }
+    handleChange = (event) => {
+        const {name, value} = event.target;
+        this.setState(
+            produce(draft => {
+                draft[name] = value;
+            })
+        )
+    }
+    getCities = () => {
+        api.getCities()
+            .then(response => {
+                const {cities} = response.data;
+                this.setState(produce(draft => {
+                    draft.cities = cities;
+                }), () => {this.getCityAreas(this.state.cities[0]._id)})
+            })
+            .catch(err => console.log)
+    }
+    getCityAreas = (id) => {
+        api.getCityAreas(id)
+            .then(response => {
+                const {areas} = response.data;
+                this.setState(produce(draft => {
+                    draft.areas = areas;
+                }))
+            })
+            .catch(err => console.log)
     }
     resetForm = () => {
         this.setState(
