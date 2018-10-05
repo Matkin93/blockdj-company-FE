@@ -9,6 +9,7 @@ import Companies from '../Companies';
 import Company from '../Company';
 import Offers from '../Offers';
 import Banner from '../Banner';
+import OfferForm from '../Offers/Form';
 
 class App extends Component {
   render() {
@@ -43,7 +44,14 @@ class App extends Component {
               <Offers {...props} />                
             </Layout>
           </Auth>
-        )}/>        
+        )}/>      
+          <Route exact path="/companies/:id/offers/add" render={(props) => (
+          <Auth {...props} login={azs.login} isAuthenticated={azs.isAuthenticated}>
+            <Layout logout={azs.logout} title="Offers">
+              <OfferForm {...props} />                
+            </Layout>
+          </Auth>
+        )}/>   
         {/* <Route exact path="/offers" render={(props) => (
           <Auth {...props} login={azs.login} isAuthenticated={azs.isAuthenticated}>
             <Layout logout={azs.logout} title="Offers">

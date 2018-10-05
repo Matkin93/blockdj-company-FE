@@ -40,9 +40,18 @@ class OffersList extends Component {
                         </tr>
                     )}
                 </tbody>
+                <tfoot>
+                    <tr>
+                        <td colSpan="3"><Button color="primary" size="sm" onClick={this.goToAddOffer}>Add Offer</Button></td>
+                    </tr>
+                </tfoot>
             </Table>
         );
     }
+    goToAddOffer = () => {
+        const {history, match} = this.props;
+        history.push(`/companies/${match.params.id}/offers/add`);
+    }    
 }
 
 export default OffersList;
