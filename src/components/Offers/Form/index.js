@@ -9,12 +9,17 @@ class OfferForm extends Component {
     state = {
         alert: false,
         cities: [],
-        areas: [],
-        title: '',
-        city: '',
+        city_areas: [],
+        offer: {
+            title: '',
+            description: '',
+            city: '',
+            areas: []
+        }
     }
     render() {
-        const {alert, cities, areas, title} = this.state;
+        const {alert, cities, areas} = this.state;
+        const {title, description, redemption, image_url, areas} = this.state.offer;
         return (
             <Fragment>
                 <Container>
@@ -27,25 +32,25 @@ class OfferForm extends Component {
                                         <FormGroup>
                                             <Row>
                                                 <Col sm={4}><Label for="title">Title<small>What's the title for the offer?</small></Label></Col>
-                                                <Col><Input type="text" name="title" id="title" placeholder="Offer title..." onChange={this.handleChange} value={this.state.title}/></Col>
+                                                <Col><Input type="text" name="title" id="title" placeholder="Offer title..." onChange={this.handleChange} value={title}/></Col>
                                             </Row>                                                
                                         </FormGroup>
                                         <FormGroup>
                                             <Row>
                                                 <Col sm={4}><Label for="description">Description<small>What's the description for the offer?</small></Label></Col>
-                                                <Col><Input type="textarea" name="description" id="description" placeholder="Offer description..." onChange={this.handleChange} value={this.state.description}/></Col>
+                                                <Col><Input type="textarea" name="description" id="description" placeholder="Offer description..." onChange={this.handleChange} value={description}/></Col>
                                             </Row>                                                
                                         </FormGroup> 
                                         <FormGroup>
                                             <Row>
                                                 <Col sm={4}><Label for="description">Redemption<small>What are the redemption instructions?</small></Label></Col>
-                                                <Col><Input type="textarea" name="redemption" id="redemption" placeholder="Offer redemption..." onChange={this.handleChange} value={this.state.redemption}/></Col>
+                                                <Col><Input type="textarea" name="redemption" id="redemption" placeholder="Offer redemption..." onChange={this.handleChange} value={redemption}/></Col>
                                             </Row>                                                
                                         </FormGroup> 
                                         <FormGroup>
                                             <Row>
                                                 <Col sm={4}><Label for="description">Image URL<small>What image do you want to use?</small></Label></Col>
-                                                <Col><Input type="image_url" name="image_url" id="image_url" placeholder="Image url..." onChange={this.handleChange} value={this.state.image_url}/></Col>
+                                                <Col><Input type="image_url" name="image_url" id="image_url" placeholder="Image url..." onChange={this.handleChange} value={image_url}/></Col>
                                             </Row>                                                
                                         </FormGroup>
                                         <FormGroup>
@@ -65,7 +70,7 @@ class OfferForm extends Component {
                                                 <Col sm={4}><Label for="description">Areas<small>What areas do you want to place this offer in ?</small></Label></Col>
                                                 <Col>
                                                     <Input type="select" multiple name="areas" id="areas" placeholder="Offer areas" onChange={this.handleChange} value={this.state.area}>
-                                                        {areas && areas.map(area => {
+                                                        {city_areas && city_areas.map(area => {
                                                             return (<option key={area._id} value={area._id}>{area.name}</option>)
                                                         })}
                                                     </Input>
@@ -114,7 +119,7 @@ class OfferForm extends Component {
             .then(response => {
                 const {areas} = response.data;
                 this.setState(produce(draft => {
-                    draft.areas = areas;
+                    draft.city_areas = areas;
                 }))
             })
             .catch(err => console.log)
